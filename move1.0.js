@@ -1,20 +1,23 @@
 function move(obj,name,target,fn){
 				clearInterval(obj.timer)
 			obj.timer=	setInterval(function(){
-				let speed=(target-parseInt(getComputedStyle(obj)[name]))/10
-				// if (speed>0) {
-				// 	speed=Math.ceil(speed)
-				// } else{
-				// 	speed=Math.floor(speed)
-				// }
-				// 三元运算符
+				if (name=='opacity') {
+					cur=getComputedStyle(obj)[name]*100
+				} else{
+					cur=parseInt(getComputedStyle(obj)[name])
+				}
+				let speed=(target-cur)/10
 				speed= (speed>0) ? Math.ceil(speed) :Math.floor(speed)
-					if (parseInt(getComputedStyle(obj)[name])==target) {
+					if (cur==target) {
 						clearInterval(obj.timer)
 						if(fn){fn()}
 					} else{
+						if (name=='opacity') {
+							obj.style[name]=(cur+speed)/100
+						} else{
+							obj.style[name]=cur+speed+'px'
+						}
 						
-						obj.style[name]=parseInt(getComputedStyle(obj)[name])+speed+'px'
 					}
 				},30)
 			}
